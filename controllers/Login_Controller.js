@@ -2,7 +2,7 @@
 const User = require('../models/Login_Model');
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
-const bcrypt = require('bcrypt'); // Import bcrypt
+//const bcrypt = require('bcrypt'); // Import bcrypt
 
 dotenv.config();
 
@@ -10,10 +10,10 @@ exports.register = async (req, res) => {
   const { username, password } = req.body;
 
   // Hash the password
-  const hashedPassword = await bcrypt.hash(password, 10);
+  //const hashedPassword = await bcrypt.hash(password, 10);
 
-  const user = new User({ username, password: hashedPassword });
-
+  // const user = new User({ username, password: hashedPassword });
+const user = new User({ username, password });
   try {
     await user.save();
     res.status(201).send('User registered successfully');
@@ -31,11 +31,11 @@ exports.login = async (req, res) => {
   }
 
   // Compare the password using bcrypt
-  const passwordMatch = await bcrypt.compare(password, user.password);
+ // const passwordMatch = await bcrypt.compare(password, user.password);
 
-  if (!passwordMatch) {
-    return res.status(401).send('Password is incorrect');
-  }
+  // if (!passwordMatch) {
+  //   return res.status(401).send('Password is incorrect');
+  // }
 
   const token = jwt.sign({ id: user._id }, process.env.SECRET_KEY);
   res.json({ token });
